@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_duyurular2"
+            android:icon="@drawable/ic_announcement_black_24dp"
+            android:title="Duyurular" />
+        <item
+            android:id="@+id/nav_kisiseld2"
+            android:icon="@drawable/ic_contact_mail_black_24dp"
+            android:title="Kişisel Duyurular" />
+        <item
+            android:id="@+id/nav_calisanlar2"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="Çalışanlar" />
+
+    </group>
+
+    <group android:checkableBehavior="single">
+
+            <item
+                android:id="@+id/nav_ayarlar2"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Hesap Bilgilerini Güncelle" />
+            <item
+                android:id="@+id/nav_cikis2"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Çıkış" />
+
+    </group>
+</menu>

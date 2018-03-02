@@ -5,34 +5,27 @@ package com.yukselproje.okurular.incompany.Models;
  */
 
 public class Kisi {
-    private String isim;
-    private String soyisim;
-    private String pozisyon;
+    private String id;
+    private String ad;
+    private String soyad;
     private String kullaniciadi;
-    private int id;
+    private String pozisyon;
+    private int yetki; // 1 = auth. 0 = unauth.
 
-    public String getIsim() {
-        return isim;
+    public String getAd() {
+        return ad;
     }
 
-    public void setIsim(String isim) {
-        this.isim = isim;
+    public void setAd(String ad) {
+        this.ad = ad;
     }
 
-    public String getSoyisim() {
-        return soyisim;
+    public String getSoyad() {
+        return soyad;
     }
 
-    public void setSoyisim(String soyisim) {
-        this.soyisim = soyisim;
-    }
-
-    public String getPozisyon() {
-        return pozisyon;
-    }
-
-    public void setPozisyon(String pozisyon) {
-        this.pozisyon = pozisyon;
+    public void setSoyad(String soyad) {
+        this.soyad = soyad;
     }
 
     public String getKullaniciadi() {
@@ -43,22 +36,39 @@ public class Kisi {
         this.kullaniciadi = kullaniciadi;
     }
 
-    public int getId() {
+    public String getPozisyon() {
+        return pozisyon;
+    }
+
+    public void setPozisyon(String pozisyon) {
+        this.pozisyon = pozisyon;
+    }
+
+    public int getYetki() {
+        return yetki;
+    }
+
+    public void setYetki(int yetki) {
+        this.yetki = yetki;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
         return "Kisi{" +
-                "isim='" + isim + '\'' +
-                ", soyisim='" + soyisim + '\'' +
-                ", pozisyon='" + pozisyon + '\'' +
+                "id='" + id + '\'' +
+                ", ad='" + ad + '\'' +
+                ", soyad='" + soyad + '\'' +
                 ", kullaniciadi='" + kullaniciadi + '\'' +
-                ", id=" + id +
+                ", pozisyon='" + pozisyon + '\'' +
+                ", yetki=" + yetki +
                 '}';
     }
 }

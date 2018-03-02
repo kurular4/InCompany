@@ -11,19 +11,24 @@
     <EditText
         android:id="@+id/kullaniciadi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="150dp"
+        android:background="@drawable/transparentbutton"
+        android:textAlignment="center"
         android:hint="Kullanıdı adınızı giriniz." />
 
     <EditText
         android:id="@+id/sifre"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/transparentbutton"
+        android:textAlignment="center"
+        android:inputType="textPassword"
         android:hint="Şifrenizi giriniz" />
 
     <LinearLayout
@@ -36,11 +41,27 @@
         <Button
             android:id="@+id/giris"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:background="@android:drawable/toast_frame"
+            android:layout_height="50dp"
+            android:background="@drawable/transparentbutton"
             android:text="giriş" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:layout_width="60dp"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_height="60dp"
+
+            android:id="@+id/progressBarLogin"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

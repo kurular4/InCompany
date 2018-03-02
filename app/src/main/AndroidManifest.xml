@@ -18,8 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.RegisterActivity"></activity>
+        <activity
+            android:name=".Activities.AdminMainActivity"
+            android:label="@string/title_activity_admin_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity
+            android:name=".Activities.UserMainActivity"
+            android:label="@string/title_activity_user_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.UsersListActivity" />
+        <activity android:name=".Activities.AnnouncementsActivity" />
+        <activity android:name=".Activities.PublishAnnouncementsActivity" />
+        <activity android:name=".Activities.PersonalAnnouncementsActivity"></activity>
     </application>
 
 </manifest>
