@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.victor.loading.rotate.RotateLoading;
 import com.yukselproje.okurular.incompany.Models.Kisi;
 import com.yukselproje.okurular.incompany.R;
 import com.yukselproje.okurular.incompany.RestApi.ManagerAll;
@@ -34,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText isim, soyisim, pozisyon;
     Button kayit;
     String generatedkullaniciadi, generatedsifre;
-    ProgressBar progressBarRegister;
+    RotateLoading progressBarRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         pozisyon = findViewById(R.id.pozisyon);
         kayit = findViewById(R.id.kayit);
         progressBarRegister = findViewById(R.id.progressBarRegister);
-        progressBarRegister.setVisibility(View.GONE);
+        progressBarRegister.stop();
     }
 
     private void kayitButtonClick() {
@@ -89,16 +90,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register() {
-        progressBarRegister.setVisibility(View.VISIBLE);
+        progressBarRegister.start();
         generatedkullaniciadi = generateUsername();
         generatedsifre = generatePassword();
         Call<Kisi> x = ManagerAll.getInstance().kisiEkle(isim.getText().toString(), soyisim.getText().toString(), pozisyon.getText().toString(),
-                generatedkullaniciadi, generatedsifre, 0);
+                generatedkullaniciadi, generatedsifre, 0, 0);
         x.enqueue(new Callback<Kisi>() {
             @Override
             public void onResponse(Call<Kisi> call, Response<Kisi> response) {
                 if (response.isSuccessful()) {
-                    progressBarRegister.setVisibility(View.GONE);
+                    progressBarRegister.stop();
                     openInfoDialog();
                 }
             }

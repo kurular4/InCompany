@@ -22,6 +22,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.yukselproje.okurular.incompany.Activities.LoginActivity.careTaker;
+import static com.yukselproje.okurular.incompany.Activities.LoginActivity.originator;
+
 /**
  * Created by okurular on 1.03.2018.
  */

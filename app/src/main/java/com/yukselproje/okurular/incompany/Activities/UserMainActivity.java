@@ -1,11 +1,15 @@
 package com.yukselproje.okurular.incompany.Activities;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +34,13 @@ import com.yukselproje.okurular.incompany.Models.Kisi;
 import com.yukselproje.okurular.incompany.Models.Weather.Result;
 import com.yukselproje.okurular.incompany.R;
 import com.yukselproje.okurular.incompany.RestApi.ManagerAll;
+import com.yukselproje.okurular.incompany.Services.LocationService;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,10 +67,10 @@ public class UserMainActivity extends AppCompatActivity
         initialize();
         getWeatherReport();
         listAnnouncements();
-        originator.setState("UserMainActivity");
-        careTaker.add(originator.saveStateToMemento());
+        setMemento();
         Log.i("durum", originator.getState().toString());
-
+        checkLocation();
+        checkService();
     }
 
     private void initialize() {
@@ -82,6 +89,63 @@ public class UserMainActivity extends AppCompatActivity
         derece = findViewById(R.id.derece2);
         havadurumuicon = findViewById(R.id.havadurumuicon2);
         listView = findViewById(R.id.sonduyurular2);
+    }
+
+    private void setMemento(){
+        originator.setState("UserMainActivity");
+        careTaker.add(originator.saveStateToMemento());
+    }
+
+    private void checkService() {
+        if (!isServiceOn()) {
+            Intent intent = new Intent(getApplicationContext(), LocationService.class);
+            intent.putExtra("id", getIntent().getStringExtra("id").toString());
+            startService(intent);
+        }
+    }
+
+    public boolean isServiceOn() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (LocationService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkLocation() {
+
+        if (Math.abs(39.875303 - Double.parseDouble(SmartLocation.with(this).location().getLastLocation().getLatitude() + "")) <= 0.001 ||
+                Math.abs(32.879980 - Double.parseDouble(SmartLocation.with(this).location().getLastLocation().getLongitude() + "")) <= 0.001) {
+            Call<Kisi> x = ManagerAll.getInstance().lokasyonGuncelle(getIntent().getStringExtra("id"), 1);
+            x.enqueue(new Callback<Kisi>() {
+                @Override
+                public void onResponse(Call<Kisi> call, Response<Kisi> response) {
+                    if (response.isSuccessful()) {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Kisi> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Call<Kisi> x = ManagerAll.getInstance().lokasyonGuncelle(getIntent().getStringExtra("id"), 0);
+            x.enqueue(new Callback<Kisi>() {
+                @Override
+                public void onResponse(Call<Kisi> call, Response<Kisi> response) {
+                    if (response.isSuccessful()) {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Kisi> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private void getById(String id) {
@@ -119,7 +183,6 @@ public class UserMainActivity extends AppCompatActivity
             //super.onBackPressed();
         }
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -267,7 +330,7 @@ public class UserMainActivity extends AppCompatActivity
     private void setIconAndDegree(Double degree) {
         DecimalFormat df = new DecimalFormat("#.#");
         derece.setText(df.format(degree) + " °C");
-        if (degree > 15)
+        if (degree > 13)
             havadurumuicon.setBackgroundResource(R.drawable.ic_wb_sunny_black_24dp);
         if (degree > 5 && degree <= 15)
             havadurumuicon.setBackgroundResource(R.drawable.ic_cloud_black_24dp);

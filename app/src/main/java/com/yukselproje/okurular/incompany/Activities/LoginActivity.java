@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onesignal.OneSignal;
+import com.victor.loading.rotate.RotateLoading;
 import com.yukselproje.okurular.incompany.Memento.CareTaker;
 import com.yukselproje.okurular.incompany.Memento.Memento;
 import com.yukselproje.okurular.incompany.Memento.Originator;
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     Button giris;
     TextView kayit;
     Kisi kisi;
-    ProgressBar progressBarLogin;
+    RotateLoading progressBarLogin;
     public static SharedPreferences sharedPreferences;
     public static Originator originator = Originator.getInstance();
     public static CareTaker careTaker = CareTaker.getInstance();
@@ -42,6 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
         setContentView(R.layout.activity_login);
         setTitle("Giriş");
         checkSharedPreferences();
@@ -50,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         girisButtonClick();
         originator.setState("LoginActivity");
         careTaker.add(originator.saveStateToMemento());
-        Log.i("durum", originator.getState().toString());
-
     }
 
     private void initialize() {
@@ -60,13 +64,21 @@ public class LoginActivity extends AppCompatActivity {
         giris = findViewById(R.id.giris);
         kayit = findViewById(R.id.kayit);
         progressBarLogin = findViewById(R.id.progressBarLogin);
-        progressBarLogin.setVisibility(View.GONE);
+        progressBarLogin.stop();
     }
 
     private void checkSharedPreferences() {
         sharedPreferences = getApplicationContext().getSharedPreferences("giris", 0);
-        if (sharedPreferences.getString("id", null) != null && sharedPreferences.getString("kullaniciadi", null) != null)
-            passToMainActivity(sharedPreferences.getString("id", null).toString(), sharedPreferences.getInt("yetki", 0));
+        if (sharedPreferences.getString("id", null) != null && sharedPreferences.getString("kullaniciadi", null) != null) {
+            try {
+                if (isConnected())
+                    passToMainActivity(sharedPreferences.getString("id", null).toString(), sharedPreferences.getInt("yetki", 0));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -128,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginCheck() {
-        progressBarLogin.setVisibility(View.VISIBLE);
+        progressBarLogin.start();
         Call<Kisi> x = ManagerAll.getInstance().loginKontrol(kullaniciadi.getText().toString(), sifre.getText().toString());
         x.enqueue(new Callback<Kisi>() {
             @Override
@@ -137,11 +149,11 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.body().getKullaniciadi() != null && response.body().getId() != null) {
                         setSharedPreferences(response.body().getId().toString(), response.body().getKullaniciadi().toString(), response.body().getYetki());
                         kisi = response.body();
-                        progressBarLogin.setVisibility(View.GONE);
+                        progressBarLogin.stop();
                         passToMainActivity(kisi.getId().toString(), kisi.getYetki());
                     } else {
                         Toast.makeText(getApplicationContext(), "Hatalı kullanıcı adı ya da şifre", Toast.LENGTH_LONG).show();
-                        progressBarLogin.setVisibility(View.GONE);
+                        progressBarLogin.stop();
                     }
                 }
             }

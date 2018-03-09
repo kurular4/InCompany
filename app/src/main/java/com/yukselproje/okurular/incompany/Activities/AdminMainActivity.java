@@ -1,9 +1,13 @@
 package com.yukselproje.okurular.incompany.Activities;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +33,13 @@ import com.yukselproje.okurular.incompany.Models.Kisi;
 import com.yukselproje.okurular.incompany.Models.Weather.Result;
 import com.yukselproje.okurular.incompany.R;
 import com.yukselproje.okurular.incompany.RestApi.ManagerAll;
+import com.yukselproje.okurular.incompany.Services.LocationService;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,11 +66,14 @@ public class AdminMainActivity extends AppCompatActivity
         initialize();
         getWeatherReport();
         listAnnouncements();
-        originator.setState("AdminMainActivity");
-        careTaker.add(originator.saveStateToMemento());
+        setMemento();
         Log.i("durum", originator.getState().toString());
         updateListView();
+        checkLocation();
+        checkService();
     }
+
+
 
     private void initialize() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,6 +91,63 @@ public class AdminMainActivity extends AppCompatActivity
         derece = findViewById(R.id.derece);
         havadurumuicon = findViewById(R.id.havadurumuicon);
         listView = findViewById(R.id.sonduyurular);
+
+    }
+
+    private void setMemento(){
+        originator.setState("AdminMainActivity");
+        careTaker.add(originator.saveStateToMemento());
+    }
+
+    private void checkService(){
+        if (!isServiceOn()) {
+            Intent intent = new Intent(getApplicationContext(), LocationService.class);
+            intent.putExtra("id", getIntent().getStringExtra("id").toString());
+            startService(intent);
+        }
+    }
+
+    public boolean isServiceOn() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (LocationService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkLocation() {
+
+        if (Math.abs(39.875303 - Double.parseDouble(SmartLocation.with(this).location().getLastLocation().getLatitude() + "")) <= 0.001 ||
+                Math.abs(32.879980 - Double.parseDouble(SmartLocation.with(this).location().getLastLocation().getLongitude() + "")) <= 0.001) {
+            Call<Kisi> x = ManagerAll.getInstance().lokasyonGuncelle(getIntent().getStringExtra("id"), 1);
+            x.enqueue(new Callback<Kisi>() {
+                @Override
+                public void onResponse(Call<Kisi> call, Response<Kisi> response) {
+                    if (response.isSuccessful()) {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Kisi> call, Throwable t) {
+                }
+            });
+        } else {
+            Call<Kisi> x = ManagerAll.getInstance().lokasyonGuncelle(getIntent().getStringExtra("id"), 0);
+            x.enqueue(new Callback<Kisi>() {
+                @Override
+                public void onResponse(Call<Kisi> call, Response<Kisi> response) {
+                    if (response.isSuccessful()){
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Kisi> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -89,9 +156,9 @@ public class AdminMainActivity extends AppCompatActivity
         updateListView();
     }
 
-    private void updateListView(){
+    private void updateListView() {
         Log.i("durum", originator.getState().toString());
-        if(originator.getState().toString().equals("PublishAnnouncementsActivity"))
+        if (originator.getState().toString().equals("PublishAnnouncementsActivity") || originator.getState().toString().equals("AnnouncementsActivity"))
             listAnnouncements();
     }
 
@@ -287,7 +354,7 @@ public class AdminMainActivity extends AppCompatActivity
             havadurumuicon.setBackgroundResource(R.drawable.ic_grain_black_24dp);
     }
 
-    private void fillList(){
+    private void fillList() {
         AnnouncementsAdapterMain announcementsAdapter = new AnnouncementsAdapterMain(list, getApplicationContext(),
                 AdminMainActivity.this);
         listView.setAdapter(announcementsAdapter);

@@ -3,6 +3,8 @@ package com.yukselproje.okurular.incompany.Adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,10 +71,19 @@ public class UserListAdapter extends BaseAdapter {
         TextView name = layout.findViewById(R.id.name2);
         TextView surname = layout.findViewById(R.id.surname2);
         TextView pozisyon = layout.findViewById(R.id.pozisyon2);
+        Button ishere = layout.findViewById(R.id.ishere);
 
         name.setText(list.get(i).getAd().toString());
         surname.setText(list.get(i).getSoyad().toString());
         pozisyon.setText(list.get(i).getPozisyon().toString());
+
+        ishere.setClickable(false);
+
+        Log.i("abcde", list.get(i).getBulunma()+"");
+
+        if(list.get(i).getBulunma() == 1){
+            ishere.setBackgroundColor(Color.parseColor("#41EF42"));
+        }
 
         if (rootClass.equals("AdminMainActivity.java")) {
             layout.setOnLongClickListener(new View.OnLongClickListener() {
@@ -103,6 +114,9 @@ public class UserListAdapter extends BaseAdapter {
         final AlertDialog dialog = builder.create();
 
         dialog.show();
+
+        // PUSH NOTIFICATION
+        //---------------------------------------------------------------------
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override

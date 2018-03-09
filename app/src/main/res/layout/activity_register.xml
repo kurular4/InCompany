@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background10"
     android:orientation="vertical"
     tools:context="com.yukselproje.okurular.incompany.Activities.RegisterActivity">
 
@@ -64,18 +64,21 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ProgressBar
+        <com.victor.loading.rotate.RotateLoading
             android:id="@+id/progressBarRegister"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            app:loading_color="#9BC6CD"
+            app:loading_speed="11"
+            app:loading_width="5dp" />
 
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:textSize="13dp"
         android:textAlignment="center"
         android:text="İsim, soyisim ve pozisyonunuzu girerken türkçe karakter kullanmayın!"/>

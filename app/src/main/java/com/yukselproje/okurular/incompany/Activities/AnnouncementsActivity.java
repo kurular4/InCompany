@@ -1,5 +1,6 @@
 package com.yukselproje.okurular.incompany.Activities;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class AnnouncementsActivity extends AppCompatActivity {
     ListView listView;
     AnnouncementsAdapter announcementsAdapter;
     String rootClass;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +39,39 @@ public class AnnouncementsActivity extends AppCompatActivity {
         listAnnouncements();
         originator.setState("AnnouncementsActivity");
         careTaker.add(originator.saveStateToMemento());
-        Log.i("durum", originator.getState().toString());
+        refresh();
     }
 
-    private void initialize(){
+    private void initialize() {
         listView = findViewById(R.id.announcements);
         rootClass = getIntent().getStringExtra("RootClass");
-        if(rootClass.equals("AdminMainActivity.java"))
+        if (rootClass.equals("AdminMainActivity.java"))
             Toast.makeText(getApplicationContext(), "Duyuru silmek için duyurunun üzerine basılı tutun", Toast.LENGTH_SHORT).show();
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
     }
 
-    private void fillList(){
+    private void refresh() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listAnnouncements();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listAnnouncements();
+    }
+
+    private void fillList() {
         announcementsAdapter = new AnnouncementsAdapter(list, getApplicationContext(), AnnouncementsActivity.this, rootClass);
         listView.setAdapter(announcementsAdapter);
     }
+
     private void listAnnouncements() {
         Call<List<Announcement>> x = ManagerAll.getInstance().duyuruListele("All");
         x.enqueue(new Callback<List<Announcement>>() {
@@ -68,4 +89,5 @@ public class AnnouncementsActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -17,8 +17,8 @@ public class ManagerAll extends BaseManager {
         return ourInstance;
     }
 
-    public Call<Kisi> kisiEkle(String ad, String soyad, String pozisyon, String kullaniciadi, String sifre, int yetki) {
-        Call<Kisi> call = getRestApiClient().kisiEkle(ad, soyad, pozisyon, kullaniciadi, sifre, yetki);
+    public Call<Kisi> kisiEkle(String ad, String soyad, String pozisyon, String kullaniciadi, String sifre, int yetki, int bulunma) {
+        Call<Kisi> call = getRestApiClient().kisiEkle(ad, soyad, pozisyon, kullaniciadi, sifre, yetki, bulunma);
         return call;
     }
 
@@ -57,8 +57,18 @@ public class ManagerAll extends BaseManager {
         return call;
     }
 
-    public Call<Announcement> duyuruSil(String id){
+    public Call<Announcement> duyuruSil(String id) {
         Call<Announcement> call = getRestApiClient().duyuruSil(id);
+        return call;
+    }
+
+    public Call<Announcement> bildirimGonder(String message) {
+        Call<Announcement> call = getRestApiClient().bildirimGonder(message);
+        return call;
+    }
+
+    public Call<Kisi> lokasyonGuncelle(String id, int lokasyon) {
+        Call<Kisi> call = getRestApiClient().lokasyonGuncelle(id, lokasyon);
         return call;
     }
 

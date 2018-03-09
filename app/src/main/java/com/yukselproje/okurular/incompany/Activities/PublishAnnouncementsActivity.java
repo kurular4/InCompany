@@ -78,9 +78,11 @@ public class PublishAnnouncementsActivity extends AppCompatActivity {
         x.enqueue(new Callback<Announcement>() {
             @Override
             public void onResponse(Call<Announcement> call, Response<Announcement> response) {
-                if(response.isSuccessful())
+                if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Duyuru başarı ile yayınlandı", Toast.LENGTH_LONG).show();
                     emptyTextBoxes();
+                    sendPushNotification();
+                }
             }
 
             @Override
@@ -90,7 +92,20 @@ public class PublishAnnouncementsActivity extends AppCompatActivity {
         });
     }
 
-    private void emptyTextBoxes(){
+    private void sendPushNotification() {
+        Call<Announcement> y = ManagerAll.getInstance().bildirimGonder("Bir yeni duyuru eklendi.");
+        y.enqueue(new Callback<Announcement>() {
+            @Override
+            public void onResponse(Call<Announcement> call, Response<Announcement> response) {
+            }
+
+            @Override
+            public void onFailure(Call<Announcement> call, Throwable t) {
+            }
+        });
+    }
+
+    private void emptyTextBoxes() {
         titlesend.setText("");
         messagesend.setText("");
     }

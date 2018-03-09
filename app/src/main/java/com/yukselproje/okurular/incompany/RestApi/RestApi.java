@@ -22,7 +22,7 @@ public interface RestApi {
     @POST("kullaniciekle.php")
     Call<Kisi> kisiEkle(@Field("ad") String ad, @Field("soyad") String soyad,
                        @Field("pozisyon") String pozisyon, @Field("kullaniciadi") String kullaniciadi,
-                        @Field("sifre") String sifre, @Field("yetki") int yetki);
+                        @Field("sifre") String sifre, @Field("yetki") int yetki, @Field("bulunma") int bulunma);
     @FormUrlEncoded
     @POST("login.php")
     Call<Kisi> loginKontrol(@Field("kullaniciadi") String kullaniciadi, @Field("sifre") String sifre);
@@ -55,4 +55,13 @@ public interface RestApi {
     @FormUrlEncoded
     @POST("duyurusil.php")
     Call<Announcement> duyuruSil(@Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("bildirimgonder.php")
+    Call<Announcement> bildirimGonder(@Field("message") String message);
+
+    @FormUrlEncoded
+    @POST("lokasyonguncelle.php")
+    Call<Kisi> lokasyonGuncelle(@Field("id") String id, @Field("lokasyon") int lokasyon);
+
 }

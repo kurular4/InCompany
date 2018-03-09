@@ -11,6 +11,7 @@ public class Kisi {
     private String kullaniciadi;
     private String pozisyon;
     private int yetki; // 1 = auth. 0 = unauth.
+    private int bulunma; // 1 = here, 0 = absent
 
     public String getAd() {
         return ad;
@@ -60,6 +61,14 @@ public class Kisi {
         this.id = id;
     }
 
+    public int getBulunma() {
+        return bulunma;
+    }
+
+    public void setBulunma(int bulunma) {
+        this.bulunma = bulunma;
+    }
+
     @Override
     public String toString() {
         return "Kisi{" +
@@ -69,6 +78,7 @@ public class Kisi {
                 ", kullaniciadi='" + kullaniciadi + '\'' +
                 ", pozisyon='" + pozisyon + '\'' +
                 ", yetki=" + yetki +
+                ", bulunma=" + bulunma +
                 '}';
     }
 }
