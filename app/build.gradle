@@ -13,9 +13,9 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.yukselproje.okurular.incompany"
-        manifestPlaceholders = [onesignal_app_id               : "7ccbe6a6-767a-4c90-b0a3-af7dda3687cc",
+        manifestPlaceholders = [onesignal_app_id               : "id",
                                 // Project number pulled from dashboard, local value is ignored.
-                                onesignal_google_project_number: "836050350771"]
+                                onesignal_google_project_number: "proje no"]
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
