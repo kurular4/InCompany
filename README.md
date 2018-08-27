@@ -10,7 +10,7 @@
 
 <p> Android </p>
 
-<h4> Used languages and libraries and others </h4>
+<h4> Used languages, libraries and others </h4>
 
 <ul>
   <li> Java for native Android application </li>
