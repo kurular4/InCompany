@@ -20,7 +20,7 @@
   <li> <a href="https://github.com/mrmans0n/smart-location-lib"> Smart Location Library</a> for location operations </li>
 </ul>
 
-<h4> What this app does </h4>
+<h4> About app </h4>
 <ul>
   <li> Public announcements </li>
   <li> On target announcements </li>
