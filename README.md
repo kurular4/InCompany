@@ -19,3 +19,12 @@
   <li> OneSignal for push notifications </li>
   <li> <a href="https://github.com/mrmans0n/smart-location-lib"> Smart Location Library</a> for location operations </li>
 </ul>
+
+<h4> What this app does </h4>
+<ul>
+  <li> Public announcements </li>
+  <li> On target announcements </li>
+  <li> Employee list with informations </li>
+  <li> Instant absenteeism check with location listeners and more..<li>
+  </ul>
+
