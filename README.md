@@ -25,6 +25,6 @@
   <li> Public announcements </li>
   <li> On target announcements </li>
   <li> Employee list with informations </li>
-  <li> Instant absenteeism check with location listeners and more..<li>
+  <li> Instant absenteeism check with location listeners and more..</li>
   </ul>
 
